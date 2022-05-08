@@ -26,20 +26,33 @@ const welcome = new Item({ // creating deafult data using data model
 
 const defaultitems= [hello, welcome];
 
-// Item.insertMany(defaultitems,function(err){
-//   if(err){
-//     console.log(err);
-//   }else{
-//     console.log("Successfully Inserted Default Items");
-//   }
-// });
 
 app.get('/', function(req, res) {
     let day = date.getDay();
-  res.render("lists", {
-    listtitle: day,
-    item_names: items
-  });
+
+  Item.find({},function(err,result){
+    if(err){
+      console.log(err);
+    }else if(result.length === 0){
+      Item.insertMany(defaultitems,function(err,result){ // this else if block will prevebt repetaion database input
+        if(err){
+          console.log(err);
+        }else{
+          console.log("successfully items added");
+        }
+      });
+    } else {
+      res.render("lists", {
+        listtitle: day,
+        item_names: result
+
+      });
+      console.log(result);
+    }
+
+    })
+
+
 });
 app.post("/", function(req, res) {
   let item = req.body.user_input;
