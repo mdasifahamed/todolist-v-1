@@ -41,6 +41,7 @@ app.get('/', function(req, res) {
           console.log("successfully items added");
         }
       });
+      res.redirect("/")
     } else {
       res.render("lists", {
         listtitle: day,
