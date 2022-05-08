@@ -48,7 +48,6 @@ app.get('/', function(req, res) {
         item_names: result
 
       });
-      console.log(result);
     }
 
     })
@@ -78,6 +77,9 @@ app.post("/work", function(req, res) {
   let item = req.body.user_input;
 
   res.redirect("/work")
+})
+app.post("/delete",function(req,res){
+  console.log(req.body.delete_item);
 })
 
 

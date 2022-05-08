@@ -6,10 +6,13 @@
 
   <div class="box">
 <% item_names.forEach(function(item){ %>
-  <div class="item">
-    <input type="checkbox">
-    <p><%= item.name%> </p>
-  </div>
+  <form class="" action="/delete" method="post">
+    <div class="item">
+       <!-- below the the line of code help to get checked item using chechbox  -->
+      <input type="checkbox" name = "delete_item" value = " <%= item._id %>" onchange="this.form.submit()">
+      <p><%= item.name%> </p>
+    </div>
+  </form>
   <% }) %>
   <form class="item" action="/" method="post">
     <input type="text" name="user_input" placeholder="New Item" autocomplete="off">
