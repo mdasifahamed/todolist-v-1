@@ -98,14 +98,25 @@ app.get("/:listid", function(req, res) { // creating custom routs and customlist
 })
 
 app.post("/", function(req, res) {
-  let item = req.body.user_input;
-
-  if (req.body.List === "Worklist") {
-    workitems.push(item);
-    res.redirect("/work")
+  let day_0 = date.getDay();
+  let item = req.body.user_input; // Catchin the the item from the user
+  let listname = req.body.List // cathinh the url api name
+  const items =new Item({ // initiatinthe item object.
+    name: item // setting the item object attribute from the user input .
+  })
+  if (req.body.List === day_0 ) { //checking the condition for in which page the is currently visisint
+    items.save(); // for the root page nothing willl happen only default items will be saved.
+    res.redirect("/") // and it redirect to the home route
   } else {
-    items.push(item);
-    res.redirect("/")
+    List.findOne({name:listname}, function(err,result){ // this model.findOne moongose method will add the new items to new collection accordint to the tittle name
+      if(err){
+        console.log(err);
+      }else{
+        result.item.push(items);
+        result.save()
+        res.redirect("/" + listname)
+      }
+    })
   }
 
 });
